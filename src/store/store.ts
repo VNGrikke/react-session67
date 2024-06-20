@@ -1,5 +1,4 @@
 import { combineReducers, createStore } from 'redux';
-
 import booksReducer from './reducers/booksReducer';
 import filterReducer from './reducers/filterReducer';
 

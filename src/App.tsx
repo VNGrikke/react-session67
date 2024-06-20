@@ -17,8 +17,8 @@ export default function App() {
     <Provider store={store}>
       <div className="container mx-auto p-4">
         <h1 className="text-2xl font-bold mb-4">Quản lý mượn trả sách</h1>
-        <button 
-          onClick={() => setShowForm(!showForm)} 
+        <button
+          onClick={() => setShowForm(!showForm)}
           className="mb-4 px-4 py-2 bg-green-500 text-white rounded"
         >
           Thêm thông tin
@@ -26,9 +26,9 @@ export default function App() {
         {showForm && <AddBookForm />}
         <div className="flex items-center mb-4">
           <label htmlFor="filter" className="mr-2">Lọc theo trạng thái:</label>
-          <select 
+          <select
             id="filter"
-            onChange={handleFilterChange} 
+            onChange={handleFilterChange}
             className="p-2 border rounded"
           >
             <option value="ALL">Tất cả</option>

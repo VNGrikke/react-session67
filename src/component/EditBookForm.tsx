@@ -1,40 +1,34 @@
 import React, { useState } from 'react';
-import { useDispatch } from 'react-redux';
-import { addBook } from '../store/reducers/booksReducer';
 import { BookRecord } from '../store/reducers/booksReducer';
 
-export default function AddBookForm() {
-    const [bookName, setBookName] = useState('');
-    const [studentName, setStudentName] = useState('');
-    const [borrowDate, setBorrowDate] = useState('');
-    const [returnDate, setReturnDate] = useState('');
-    const [status, setStatus] = useState<'Đã trả' | 'Chưa trả'>('Chưa trả');
-    const dispatch = useDispatch();
+interface EditBookFormProps {
+    book: BookRecord;
+    onUpdate: (book: BookRecord) => void;
+    onCancel: () => void;
+}
+
+export default function EditBookForm({ book, onUpdate, onCancel }: EditBookFormProps) {
+    const [bookName, setBookName] = useState(book.bookName);
+    const [studentName, setStudentName] = useState(book.studentName);
+    const [borrowDate, setBorrowDate] = useState(book.borrowDate);
+    const [returnDate, setReturnDate] = useState(book.returnDate);
+    const [status, setStatus] = useState<'Đã trả' | 'Chưa trả'>(book.status);
 
     const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault();
-        if (!bookName || !studentName || !borrowDate || !returnDate) {
-            alert('Tất cả các trường không được phép để trống');
-            return;
-        }
-        const newBook: BookRecord = {
-            id: Date.now(),
+        onUpdate({
+            ...book,
             bookName,
             studentName,
             borrowDate,
             returnDate,
             status,
-        };
-        dispatch(addBook(newBook));
-        setBookName('');
-        setStudentName('');
-        setBorrowDate('');
-        setReturnDate('');
+        });
     };
 
     return (
         <form onSubmit={handleSubmit} className="p-4 bg-white shadow-md rounded">
-            <h2 className="text-xl mb-4">Thêm sách mới</h2>
+            <h2 className="text-xl mb-4">Chỉnh sửa sách</h2>
             <input
                 type="text"
                 placeholder="Tên sách"
@@ -69,7 +63,8 @@ export default function AddBookForm() {
                 <option value="Đã trả">Đã trả</option>
                 <option value="Chưa trả">Chưa trả</option>
             </select>
-            <button type="submit" className="px-4 py-2 bg-blue-500 text-white rounded">Thêm</button>
+            <button type="submit" className="px-4 py-2 bg-blue-500 text-white rounded mr-2">Lưu</button>
+            <button type="button" onClick={onCancel} className="px-4 py-2 bg-gray-500 text-white rounded">Hủy</button>
         </form>
     );
 }
